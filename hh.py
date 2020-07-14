@@ -156,7 +156,12 @@ def user_handler(message):
                     vacancies.append(vac)
                     bot.send_message(message.chat.id, "id: " + str(vac['id']) + ". Должность: " + vac["name"],
                                      reply_markup=None)
-                sent = bot.send_message(message.chat.id, "Введите id или должность нужной вакансии", reply_markup=None)
+                if not vacancies:
+                    return 1
+                markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+                item = types.KeyboardButton("Назад ➤")
+                markup.add(item)
+                sent = bot.send_message(message.chat.id, "Введите id или должность нужной вакансии", reply_markup=markup)
                 bot.register_next_step_handler(sent, pre_questionnaire, vacancies, branch)
             break
     else:
