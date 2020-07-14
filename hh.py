@@ -1,4 +1,6 @@
 import telebot
+from telebot.apihelper import ApiException
+
 import config
 import json
 import time
@@ -496,7 +498,9 @@ def mailing(message, arguments=None):
                         bot.register_next_step_handler(sent, feedback, message.text)
                     else:
                         bot.send_message(message.chat.id, "Принято.", reply_markup=markup)
-                finally:
+                except ApiException:
+                    continue
+                else:
                     continue
             return 0
         if message.content_type == 'text':
@@ -506,7 +510,9 @@ def mailing(message, arguments=None):
                         bot.send_message(person['id'], message.text, reply_markup=markup)
                     else:
                         bot.send_message(message.chat.id, "Принято.", reply_markup=markup)
-                finally:
+                except ApiException:
+                    continue
+                else:
                     continue
             bot.send_message(message.chat.id, "Разослано.", reply_markup=markup)
         elif message.content_type == 'photo':
@@ -523,7 +529,10 @@ def mailing(message, arguments=None):
                         bot.send_photo(person['id'], photo, reply_markup=markup)
                     else:
                         bot.send_message(message.chat.id, "Принято.", reply_markup=markup)
-                finally:
+                except ApiException:
+                    photo.close()
+                    continue
+                else:
                     photo.close()
                     continue
             bot.send_message(message.chat.id, "Разослано.", reply_markup=markup)
@@ -541,7 +550,10 @@ def mailing(message, arguments=None):
                         bot.send_document(person['id'], document, reply_markup=markup)
                     else:
                         bot.send_message(message.chat.id, "Принято.", reply_markup=markup)
-                finally:
+                except ApiException:
+                    document.close()
+                    continue
+                else:
                     document.close()
                     continue
             bot.send_message(message.chat.id, "Разослано.", reply_markup=markup)
