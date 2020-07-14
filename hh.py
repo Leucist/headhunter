@@ -9,7 +9,7 @@ from telebot import types
 bot = telebot.TeleBot(config.TOKEN)
 
 # adm_functions = ['Вакансии', 'Черный список', 'Установить частоту оповещений', 'Рассылка', 'Провести опрос']
-adm_functions = ['Вакансии', 'Черный список', 'Просмотреть Базу Данных', 'Отправить сообщение', 'Рассылка']
+adm_functions = ['Вакансии', 'Черный список', 'Просмотреть Базу Данных', 'Отправить сообщение-вопрос', 'Рассылка']
 vacancy_functions = ["Добавить вакансию", "Удалить вакансию", "Просмотреть текущий список вакансий"]
 black_list_functions = ['Добавить пользователя в черный список', 'Удалить пользователя из черного списка',
                         'Просмотреть черный список']
@@ -99,7 +99,7 @@ def admin_after(message):
         #                             "С какой частотой вы хотите получать уведомления о приходящих заявках",
         #                             reply_markup=markup)
         #     bot.register_next_step_handler(sent, notifications)
-        elif message.text == 'Отправить сообщение':
+        elif message.text == 'Отправить сообщение-вопрос':
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = types.KeyboardButton("Всем")
             item2 = types.KeyboardButton("Выбрать пользователя")
