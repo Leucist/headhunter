@@ -9,7 +9,7 @@ from telebot import types
 bot = telebot.TeleBot(config.TOKEN)
 
 # adm_functions = ['Вакансии', 'Черный список', 'Установить частоту оповещений', 'Рассылка', 'Провести опрос']
-adm_functions = ['Вакансии', 'Черный список', 'Просмотреть Базу Данных', 'Рассылка', 'Провести опрос']
+adm_functions = ['Вакансии', 'Черный список', 'Просмотреть Базу Данных', 'Отправить сообщение', 'Рассылка']
 vacancy_functions = ["Добавить вакансию", "Удалить вакансию", "Просмотреть текущий список вакансий"]
 black_list_functions = ['Добавить пользователя в черный список', 'Удалить пользователя из черного списка',
                         'Просмотреть черный список']
@@ -99,9 +99,28 @@ def admin_after(message):
         #                             "С какой частотой вы хотите получать уведомления о приходящих заявках",
         #                             reply_markup=markup)
         #     bot.register_next_step_handler(sent, notifications)
-        elif message.text == 'Провести опрос':
-            sent = bot.send_message(message.chat.id, "Опрос на какую тему Вы хотите провести?", reply_markup=markup)
+        elif message.text == 'Отправить сообщение':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            item1 = types.KeyboardButton("Всем")
+            item2 = types.KeyboardButton("Выбрать пользователя")
+            markup.add(item1, item2)
+            sent = bot.send_message(message.chat.id,
+                                    "Разослать опрос всем пользователям или выбрать конкретного пользователя?",
+                                    reply_markup=markup)
+            bot.register_next_step_handler(sent, admin_after)
+        elif message.text.lower() == 'всем':
+            sent = bot.send_message(message.chat.id, "Опрос на какую тему Вы хотите провести?", reply_markup=None)
             bot.register_next_step_handler(sent, mailing, arguments=True)
+        elif message.text == 'Выбрать пользователя':
+            with open("user_base.json", "r", encoding="UTF-8") as database:
+                data = json.loads(database.read())
+                for s_user in data['users']:
+                    bot.send_message(message.chat.id,
+                                     "id: " + str(s_user['id']) + "; Имя: " + s_user['first_name'] + ";",
+                                     reply_markup=None)
+            sent = bot.send_message(message.chat.id, "Выберите желаемого пользователя и отправьте его id",
+                                    reply_markup=None)
+            bot.register_next_step_handler(sent, q_user)
         elif message.text == "Назад ➤":
             bot.send_message(message.chat.id, "Принято.", reply_markup=markup)
     else:
@@ -162,7 +181,8 @@ def user_handler(message):
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 item = types.KeyboardButton("Назад ➤")
                 markup.add(item)
-                sent = bot.send_message(message.chat.id, "Введите id или должность нужной вакансии", reply_markup=markup)
+                sent = bot.send_message(message.chat.id, "Введите id или должность нужной вакансии",
+                                        reply_markup=markup)
                 bot.register_next_step_handler(sent, pre_questionnaire, vacancies, branch)
             break
     else:
@@ -217,8 +237,9 @@ def questionnaire(message, num, questions, appForm, start_time=None):
                 user = {"techInfo": techInfo, "appForm": appForm}
                 data['users'].append(user)
                 database_write(data, "interviewees.json")
-                bot.send_message(message.chat.id, "Готово!\nВопросы закончились, форма успешно заполнена.\nВ случае утверждения Вас на должность, с Вами свяжутся.")
-                #--------------------------------------------------------------------------------------
+                bot.send_message(message.chat.id,
+                                 "Готово!\nВопросы закончились, форма успешно заполнена.\nВ случае утверждения Вас на должность, с Вами свяжутся.")
+                # --------------------------------------------------------------------------------------
                 with open("notification.txt", "w", encoding="UTF-8") as notification_file:
                     notification_file.write(
                         "Филиал: " + appForm['branch'] + ".\nДолжность(название,id): " +
@@ -492,11 +513,35 @@ def vacancy_add(message, questions):
 #             notifications()
 
 
-def mailing(message, arguments=None):
+def q_user(message):
+    try:
+        user_id = int(message.text.strip())
+    except ValueError:
+        markup = back_markup()
+        bot.send_message(admin_id,
+                         "Ошибка: Неверный формат id.\nПроверьте правильность введенных данных и попробуйте снова.",
+                         reply_markup=markup)
+        return 1
+    else:
+        sent = bot.send_message(admin_id, "Какой вопрос Вы хотели бы задать?\n(Отправьте его следующим сообщением)")
+        bot.register_next_step_handler(sent, mailing, user_id, arguments=True)
+
+
+def mailing(message, arguments=None, user_id=None):
     markup = back_markup()
     with open("user_base.json", "r", encoding="UTF-8") as database:
         data = json.loads(database.read())
         if arguments:
+            if user_id is not None:
+                try:
+                    sent = bot.send_message(user_id, message.text, reply_markup=markup)
+                    bot.register_next_step_handler(sent, feedback, message.text)
+                except ApiException:
+                    bot.send_message(admin_id,
+                                     "Вопрос не был отправлен, т.к. пользователь заблокировал бота или отправка сообщений ему невозможна.",
+                                     reply_markup=markup)
+                finally:
+                    return 0
             for person in data['users']:
                 try:
                     if person['id'] != message.from_user.id:
