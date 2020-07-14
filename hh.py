@@ -157,6 +157,7 @@ def user_handler(message):
                     bot.send_message(message.chat.id, "id: " + str(vac['id']) + ". Должность: " + vac["name"],
                                      reply_markup=None)
                 if not vacancies:
+                    bot.send_message(message.chat.id, "Нет доступных вакансий.", reply_markup=None)
                     return 1
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 item = types.KeyboardButton("Назад ➤")
