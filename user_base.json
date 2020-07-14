@@ -1,11 +1,18 @@
 {
- "items":1,
+ "items":2,
  "users":[
   {
    "id":1064282294,
    "first_name":"Leucist",
    "last_name":null,
    "username":"leucist",
+   "is_bot":false
+  },
+  {
+   "id":928066798,
+   "first_name":"Victoria",
+   "last_name":null,
+   "username":null,
    "is_bot":false
   }
  ]

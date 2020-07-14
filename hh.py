@@ -524,7 +524,7 @@ def q_user(message):
         return 1
     else:
         sent = bot.send_message(admin_id, "Какой вопрос Вы хотели бы задать?\n(Отправьте его следующим сообщением)")
-        bot.register_next_step_handler(sent, mailing, user_id, arguments=True)
+        bot.register_next_step_handler(sent, mailing, arguments=True, user_id=user_id)
 
 
 def mailing(message, arguments=None, user_id=None):
