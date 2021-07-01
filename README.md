@@ -16,3 +16,6 @@ After writing "/admin" command to the bot user riches the access to control the 
 If nothing interferes, admin is able to change vacancy-list¹, blacklist², check databases and send the mailing to the all users or to one user personally.
 > 1) This way Admin is able to add new vacancies to the list, remove extra-ones or see the whole list.
 > 2) This way Admin is able to add new users to the blacklist, remove extra-ones or see the whole list.
+
+## Interviewee functionality >
+Interviewee is able to look through the list of vacancies available in all branches of the company and fill the application form by answering questions for the chosen vacancy.
