@@ -19,3 +19,4 @@ If nothing interferes, admin is able to change vacancy-list¹, blacklist², chec
 
 ## Interviewee functionality >
 Interviewee is able to look through the list of vacancies available in all branches of the company and fill the application form by answering questions for the chosen vacancy.
+If HRs find it acceptable interviewee will get a respond.
