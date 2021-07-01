@@ -1,7 +1,6 @@
 {
- "items":1,
+ "items":2,
  "users":[
-  {},
   {
    "techInfo":{
     "id":1064282294,
@@ -21,6 +20,29 @@
      {
       "answer":"Ответ (!)",
       "time":6
+     }
+    ]
+   }
+  },
+  {
+   "techInfo":{
+    "id":1064282294,
+    "first_name":"Leucist",
+    "last_name":null,
+    "username":"leucist"
+   },
+   "appForm":{
+    "branch":"Филиал №1",
+    "vacancy_name":"Вакансия №1",
+    "vacancy_id":1,
+    "answers":[
+     {
+      "answer":"Ответ",
+      "time":10
+     },
+     {
+      "answer":"Следующий ответ",
+      "time":4
      }
     ]
    }

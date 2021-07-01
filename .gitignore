@@ -1,0 +1,6 @@
+/.idea
+/__pycache__
+/Презентации
+*.py
+!hh.py
+!config.py
