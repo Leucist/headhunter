@@ -17,6 +17,9 @@ If nothing interferes, admin is able to change vacancy-list¹, blacklist², chec
 > 1) This way Admin is able to add new vacancies to the list, remove extra-ones or see the whole list.
 > 2) This way Admin is able to add new users to the blacklist, remove extra-ones or see the whole list.
 
+An example of the result that HR receives:\
+![image](https://user-images.githubusercontent.com/65130251/124385598-1569b900-dcdf-11eb-94a1-e5b258b7308f.png)
+
 ## Interviewee functionality >
 Interviewee is able to look through the list of vacancies available in all branches of the company and fill the application form by answering questions for the chosen vacancy.
 If HRs find it acceptable interviewee will get a respond.
