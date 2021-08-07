@@ -1,6 +1,7 @@
 # HeadHunter
 
-> v = 1.0  
+[![Version](https://img.shields.io/badge/version-1.0-green.svg)](https://github.com/Leucist/headhunter)
+
 > author: [leucist](https://github.com/Leucist/)  
 > EPAM hackathon project  
 
