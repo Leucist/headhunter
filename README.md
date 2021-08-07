@@ -1,8 +1,7 @@
 # HeadHunter
 
 [![Version](https://img.shields.io/badge/version-1.0-green.svg)](https://github.com/Leucist/headhunter)
-
-> author: [leucist](https://github.com/Leucist/)  
+[![author](https://img.shields.io/badge/author-leucist-blue)](https://github.com/Leucist/)
 > EPAM hackathon project  
 
 ## About >
